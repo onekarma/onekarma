@@ -41,8 +41,8 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",         with: "Stephen To"
-        fill_in "Email",        with: "stephen@onekarma.org"
+        fill_in "Name",         with: "Example User"
+        fill_in "Email",        with: "example@example.com"
         fill_in "Password",     with: "Passw0rd"
         fill_in "Confirmation", with: "Passw0rd"
       end
@@ -53,10 +53,17 @@ describe "User pages" do
 
       describe "after saving the user" do
         before { click_button submit }
-        let(:user) { User.find_by_email('stephen@onekarma.org') }
+        let(:user) { User.find_by_email('example@example.com') }
 
         it { should have_selector('title', text: user.name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_link('Sign out') }
+
+        describe "followed by signout" do
+          before { click_link "Sign out" }
+          it { should have_link('Sign in') }
+        end
+        
       end
     end
   end 
